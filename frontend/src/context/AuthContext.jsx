@@ -9,13 +9,27 @@ export function AuthProvider({ children }) {
     return saved ? JSON.parse(saved) : null;
   });
 
-  const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
+  const applySession = (data) => {
     localStorage.setItem('cognis_token', data.access_token);
     const profile = { user_id: data.user_id, full_name: data.full_name, role: data.role };
     localStorage.setItem('cognis_user', JSON.stringify(profile));
     setUser(profile);
     return profile;
+  };
+
+  const login = async (email, password) => {
+    const { data } = await api.post('/auth/login', { email, password });
+    return applySession(data);
+  };
+
+  const loginWithOtp = async (email, otp_code) => {
+    const { data } = await api.post('/auth/login-otp', { email, otp_code });
+    return applySession(data);
+  };
+
+  const verifyEmailOtp = async (email, otp_code) => {
+    const { data } = await api.post('/auth/verify-email', { email, otp_code });
+    return applySession(data);
   };
 
   const logout = () => {
@@ -25,7 +39,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, loginWithOtp, verifyEmailOtp, logout }}>
       {children}
     </AuthContext.Provider>
   );
