@@ -1,3 +1,3 @@
-from app.models.entities import User, Course, Enrollment, TelemetryEvent, AuditLog
+from app.models.entities import User, OtpCode, Course, Enrollment, TelemetryEvent, AuditLog
 
-__all__ = ["User", "Course", "Enrollment", "TelemetryEvent", "AuditLog"]
+__all__ = ["User", "OtpCode", "Course", "Enrollment", "TelemetryEvent", "AuditLog"]

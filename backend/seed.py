@@ -46,6 +46,7 @@ def run_seed():
             password_hash=hash_password("Admin@1234"),
             role="analyst_admin",
             cohort="STAFF",
+            is_verified=True,
         )
         demo_student = User(
             full_name="Aarav Sharma",
@@ -53,6 +54,7 @@ def run_seed():
             password_hash=hash_password("Student@1234"),
             role="student",
             cohort="COG-DA-2026-Q4",
+            is_verified=True,
         )
         db.add_all([admin, demo_student])
         db.flush()
@@ -81,6 +83,7 @@ def run_seed():
                 password_hash=hash_password("Learner@1234"),
                 role="student",
                 cohort=cohort,
+                is_verified=True,
             )
             db.add(student)
             db.flush()
@@ -121,7 +124,7 @@ def run_seed():
                 )
 
         db.commit()
-        print("SEEDED: 50 students, 1 analyst_admin, 2 courses, and telemetry events.")
+        print("SEEDED: 50 verified students, 1 analyst_admin, 2 courses, and telemetry events.")
     finally:
         db.close()
 

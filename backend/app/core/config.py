@@ -11,6 +11,15 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./cognis.db"
     CORS_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
 
+    # Genuine Email & OTP Settings
+    VERIFY_EMAIL_DNS: bool = True
+    OTP_EXPIRE_MINUTES: int = 10
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_FROM: str = ""
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     @property

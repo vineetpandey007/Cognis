@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text, Boolean
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 
@@ -16,10 +16,24 @@ class User(Base):
     email = Column(String(160), unique=True, index=True, nullable=False)
     password_hash = Column(String(256), nullable=False)
     role = Column(String(32), nullable=False, default="student")
-    cohort = Column(String(64), nullable=False, default="DA-2026-A")
+    cohort = Column(String(64), nullable=False, default="COG-DA-2026-Q4")
+    is_verified = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     enrollments = relationship("Enrollment", back_populates="user", cascade="all, delete-orphan")
+
+
+class OtpCode(Base):
+    __tablename__ = "otp_codes"
+
+    otp_id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(160), index=True, nullable=False)
+    code_hash = Column(String(128), nullable=False)
+    purpose = Column(String(32), index=True, nullable=False)
+    attempts = Column(Integer, nullable=False, default=0)
+    is_used = Column(Boolean, nullable=False, default=False)
+    expires_at = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
 
 
 class Course(Base):
